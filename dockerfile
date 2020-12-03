@@ -18,3 +18,8 @@ RUN dotnet build "TailspinToysWeb.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "TailspinToysWeb.csproj" -c Release -o /app/publish
 We use dotnet publish to package the source-code in a proper way.
+
+FROM base AS final
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "TailspinToysWeb.dll"]
+
